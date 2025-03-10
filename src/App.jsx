@@ -1,7 +1,10 @@
+import { RouterProvider } from "react-router";
+import { routes } from "./routes";
+
 function App() {
   return (
     <>
-      <div>Hello Vite + React!</div>
+      <RouterProvider router={routes} />
     </>
   );
 }
