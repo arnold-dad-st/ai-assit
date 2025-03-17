@@ -1,10 +1,20 @@
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { geminiService } from "../../config/gemini";
+
+import { setApiKey } from "../../redux/chat-actions";
 
 export const Settings = () => {
-  const [apiKey, setApiKey] = useState("1234567");
+  const dispatch = useDispatch();
+  const { apiKey } = useSelector((state) => state.chatReducer);
 
-  const handleSaveApiKey = () => {};
+  const [apiKeyInMemory, setApiKeyInMemory] = useState(apiKey);
+
+  const handleSaveApiKey = () => {
+    dispatch(setApiKey(apiKeyInMemory));
+    geminiService.initialize(apiKeyInMemory);
+  };
 
   return (
     <Box
@@ -29,8 +39,8 @@ export const Settings = () => {
         </Typography>
         <TextField
           type="password"
-          value={apiKey}
-          onChange={(e) => setApiKey(e.target.value)}
+          value={apiKeyInMemory}
+          onChange={(e) => setApiKeyInMemory(e.target.value)}
           label="API Key"
           fullWidth
           sx={{ mb: 2 }}
